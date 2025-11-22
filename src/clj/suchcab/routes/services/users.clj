@@ -12,34 +12,28 @@
 (def auth-backend
   (jwe-backend
    {:secret secret
-    :unauthorized-handler (fn [req meta] (println "\n\n\nwhoops not authorized...\n\n\n" req))
+    :unauthorized-handler (fn [req meta] (unauthorized {:error "Unauthorized"}))
     :options {:alg :a256kw :enc :a128gcm}}))
 
 (defn wrap-http-cookie [handler]
-  (println "\n\n\n\ninside wrap-http-cookie\n\n\n\n")
   (wrap-cookies handler))
 
 (defn token-authentication [handler]
-  (println "in token-authentication")
   (wrap-authentication handler auth-backend))
 
 (defn token-authorization [handler]
-  (println "in token-authorization")
   (wrap-authorization handler auth-backend))
 
 (defn login-user-handler
   [{{{:keys [email password] :as opts} :body :as params} :parameters}]
-  (println "\n\nall login request parameters\n\n" params)
-  (let [login-result (users/login-user opts)
-        token-value (:token login-result)]
+  (let [login-result (users/login-user opts)]
     (condp = (:status login-result)
-      :success     (-> login-result
-                       ok)
-      :wrong-email (bad-request login-result))))
+      :success          (ok login-result)
+      :wrong-email      (bad-request {:error "Email not found"})
+      :wrong-password   (bad-request {:error "Invalid password"}))))
 
 (defn create-user-handler
   [{{{:keys [email username password] :as opts} :body} :parameters}]
-  (println "creating user... " opts)
   (users/create-user opts))
 
 (defn user-routes []

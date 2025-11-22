@@ -15,11 +15,6 @@
 
 
 (def auth-backend (jwe-backend {:secret secret
-
-                                ; TODO implement this shit
-                                ;:authfn (fn [req token] nil)
-                                ;:unauthorized-handler (fn [] nil)
-
                                 :options {:alg :a256kw :enc :a128gcm}}))
 
 (mount/defstate init-app

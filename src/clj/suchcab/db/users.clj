@@ -39,7 +39,8 @@
           (let [claims {:user email
                         :exp (time/plus (time/now) (time/hours 24))}
                 token (jwt/encrypt claims secret {:alg :a256kw :enc :a128gcm})]
-            {:status :success, :token token})))
+            {:status :success, :token token})
+          {:status :wrong-password}))
       {:status :wrong-email})))
 
 

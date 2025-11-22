@@ -6,8 +6,6 @@
     [mount.core :refer [args defstate]]))
 
 
-(def secret (sha256 "mysecret"))
-
 (defstate env
   :start
   (load-config
@@ -15,3 +13,6 @@
     [(args)
      (source/from-system-props)
      (source/from-env)]))
+
+(def secret
+  (sha256 (or (:secret env) "default-dev-secret")))

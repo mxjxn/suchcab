@@ -1,2 +1,6 @@
 {:prod true
- :port 3000}
+ :port 3000
+ ;; IMPORTANT: Set :secret environment variable in production!
+ ;; Generate a strong random secret for JWT encryption
+ ;; Example: openssl rand -base64 32
+ }

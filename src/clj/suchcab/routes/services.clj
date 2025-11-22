@@ -58,6 +58,7 @@
    ["/graphql" {:post (fn [req] (ok (graphql/execute-request (-> req :body slurp))))}]
 
    (user-routes)
+   (tours/tour-routes)
 
    ["/math"
     {:swagger {:tags ["math"]}}
@@ -73,7 +74,6 @@
              :parameters {:body {:x int?, :y int?}}
              :responses {200 {:body {:total pos-int?}}}
              :handler (fn [{{{:keys [x y]} :body} :parameters :as req}]
-                        (println "math that shit")
                         {:status 200
                          :body {:total (+ x y)}})}}]]
 
