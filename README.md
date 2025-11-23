@@ -5,7 +5,7 @@ A comprehensive Clojure-based REST API for managing pedicab rides, tours, and dr
 ## Features
 
 ### Core Features
-- **User Management**: Registration and JWT-based authentication for both passengers and drivers
+- **User Management**: Registration and JWT-based authentication for passengers, drivers, and admins
 - **On-Demand Rides**: Real-time ride requests with driver matching
 - **Scheduled Rides**: Book rides in advance
 - **Tour Management**: Create and manage scheduled group tours
@@ -16,6 +16,15 @@ A comprehensive Clojure-based REST API for managing pedicab rides, tours, and dr
 - **User Avatars**: Photo profile support for personalization
 - **GraphQL Support**: Alternative query interface
 - **Auto-generated Documentation**: Interactive Swagger UI
+
+### Admin Features
+- **Driver Approval System**: Review and approve/reject driver applications
+- **Driver Management**: Ban/unban drivers from the platform
+- **Business Opportunities**: Create special offers and incentive programs for drivers
+- **Smart Assignment**: Assign opportunities to specific drivers or random selection
+- **Dashboard Statistics**: Real-time platform metrics and analytics
+- **Driver Search**: Find drivers by name, email, or other criteria
+- **Detailed Driver Profiles**: View comprehensive driver information including ride history
 
 ## Prerequisites
 
@@ -98,6 +107,32 @@ Access the API documentation at: http://localhost:3000/api/api-docs/index.html
 - `GET /api/messages/unread/:user-id` - Get unread messages
 - `GET /api/messages/conversations/:user-id` - Get list of conversation partners
 
+### Admin (Requires Admin Authentication)
+
+#### Driver Management
+- `GET /api/admin/drivers/pending` - Get pending driver applications
+- `GET /api/admin/drivers/approved` - Get approved drivers
+- `GET /api/admin/drivers/banned` - Get banned drivers
+- `GET /api/admin/drivers/rejected` - Get rejected applications
+- `POST /api/admin/drivers/approve` - Approve a driver application
+- `POST /api/admin/drivers/reject` - Reject a driver application
+- `POST /api/admin/drivers/ban` - Ban a driver from the platform
+- `POST /api/admin/drivers/unban` - Unban a driver
+- `GET /api/admin/drivers/search` - Search drivers by name/email
+- `GET /api/admin/drivers/:driver-id` - Get detailed driver information
+
+#### Business Opportunities
+- `POST /api/admin/opportunities/create` - Create business opportunity
+- `GET /api/admin/opportunities/list` - List all opportunities
+- `GET /api/admin/opportunities/:opportunity-id` - Get opportunity details
+- `GET /api/admin/opportunities/:opportunity-id/assignments` - Get opportunity assignments
+- `POST /api/admin/opportunities/assign` - Assign to specific driver
+- `POST /api/admin/opportunities/assign-random` - Assign to N random drivers
+- `POST /api/admin/opportunities/deactivate` - Deactivate an opportunity
+
+#### Platform Statistics
+- `GET /api/admin/stats` - Get dashboard statistics
+
 ### Utilities
 - `GET /api/ping` - Health check
 - `POST /api/graphql` - GraphQL endpoint
@@ -173,16 +208,66 @@ curl -X POST http://localhost:3000/api/messages/send \
   }'
 ```
 
+### Admin Examples (Requires Admin JWT Token)
+
+#### Approve a Driver Application
+```bash
+curl -X POST http://localhost:3000/api/admin/drivers/approve \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Token <admin-jwt-token>" \
+  -d '{
+    "driver-id": "550e8400-e29b-41d4-a716-446655440000",
+    "admin-id": "750e8400-e29b-41d4-a716-446655440000",
+    "notes": "Background check passed. Vehicle inspected."
+  }'
+```
+
+#### Create Business Opportunity
+```bash
+curl -X POST http://localhost:3000/api/admin/opportunities/create \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Token <admin-jwt-token>" \
+  -d '{
+    "title": "Weekend Bonus Program",
+    "description": "Earn 20% extra on all weekend rides",
+    "type": "bonus",
+    "value": 0.20,
+    "valid-from": "2025-11-29T00:00:00Z",
+    "valid-to": "2025-12-01T23:59:59Z",
+    "terms": "Must complete minimum 10 rides"
+  }'
+```
+
+#### Assign Opportunity to Random Drivers
+```bash
+curl -X POST http://localhost:3000/api/admin/opportunities/assign-random \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Token <admin-jwt-token>" \
+  -d '{
+    "opportunity-id": "850e8400-e29b-41d4-a716-446655440000",
+    "count": 25,
+    "admin-id": "750e8400-e29b-41d4-a716-446655440000"
+  }'
+```
+
+#### Get Platform Statistics
+```bash
+curl -X GET http://localhost:3000/api/admin/stats \
+  -H "Authorization: Token <admin-jwt-token>"
+```
+
 ## Architecture
 
 ### Data Models
 
-**Users**: Passengers and drivers with authentication, avatars, and profiles
-**Drivers**: Extended profiles with card links, availability, location, and ratings
+**Users**: Passengers, drivers, and admins with authentication, avatars, and profiles
+**Drivers**: Extended profiles with card links, availability, location, ratings, and approval status (:pending, :approved, :rejected, :banned)
 **Rides**: On-demand and scheduled rides with status tracking
 **Tours**: Scheduled group tours
 **Contacts**: Passenger-driver favorite relationships
 **Messages**: Chat messages between users
+**Opportunities**: Business opportunities and incentive programs for drivers
+**Assignments**: Track which drivers are assigned to which opportunities
 
 ### Tech Stack
 

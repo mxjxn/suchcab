@@ -21,6 +21,7 @@
                         :driver/total-rides 0
                         :driver/available false
                         :driver/location nil
+                        :driver/status :pending  ; :pending, :approved, :rejected, :banned
                         :driver/created-at (time/instant)
                         :driver/updated-at (time/instant)}
         result (crux/submit-tx crux-node [[:crux.tx/put driver-profile]])]
@@ -56,11 +57,12 @@
          :tx-id (:crux.tx/tx-id result)}))))
 
 (defn get-available-drivers
-  "Get all currently available drivers, optionally filtered by location proximity"
+  "Get all currently available and approved drivers"
   ([]
    (crux/q (crux/db crux-node)
            {:find '[(pull e [*])]
-            :where '[[e :driver/available true]]}))
+            :where '[[e :driver/available true]
+                     [e :driver/status :approved]]}))
   ([lat lon radius-km]
    ;; For now, return all available drivers
    ;; TODO: Implement geospatial filtering
@@ -89,3 +91,27 @@
   (crux/q (crux/db crux-node)
           {:find '[(pull e [*])]
            :where '[[e :driver/user-id]]}))
+
+(defn get-drivers-by-status
+  "Get drivers by approval status"
+  [status]
+  (crux/q (crux/db crux-node)
+          {:find '[(pull e [*])]
+           :where '[[e :driver/status s]]
+           :args [{'s status}]}))
+
+(defn update-driver-status
+  "Update driver's approval status"
+  [driver-id new-status notes]
+  (let [driver (get-driver-by-id driver-id)]
+    (when driver
+      (let [updated-driver (merge driver
+                                  {:driver/status new-status
+                                   :driver/status-notes notes
+                                   :driver/status-updated-at (time/instant)
+                                   :driver/updated-at (time/instant)})
+            result (crux/submit-tx crux-node [[:crux.tx/put updated-driver]])]
+        {:status :success
+         :driver-id driver-id
+         :driver-status new-status
+         :tx-id (:crux.tx/tx-id result)}))))

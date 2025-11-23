@@ -14,6 +14,7 @@
     [suchcab.routes.services.rides :as rides]
     [suchcab.routes.services.contacts :as contacts]
     [suchcab.routes.services.messages :as messages]
+    [suchcab.routes.services.admin :as admin]
     [suchcab.routes.services.users :refer [user-routes token-authentication token-authorization]]
     [suchcab.middleware :refer [wrap-restricted]]
     [suchcab.middleware.formats :as formats]
@@ -67,6 +68,7 @@
    (rides/ride-routes)
    (contacts/contact-routes)
    (messages/message-routes)
+   (admin/admin-routes)
 
    ["/math"
     {:swagger {:tags ["math"]}}
