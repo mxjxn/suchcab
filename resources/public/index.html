@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="On-demand and scheduled pedicab rides with real-time driver tracking">
+  <meta name="theme-color" content="#2563eb">
+
+  <!-- PWA Meta Tags -->
+  <link rel="manifest" href="/manifest.json">
+  <link rel="apple-touch-icon" href="/img/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="SuchCab">
+
+  <title>SuchCab - Pedicab Ride Sharing</title>
+
+  <link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+  <!-- Splash Screen -->
+  <div id="splash" class="splash">
+    <div class="splash-content">
+      <div class="logo">🚲</div>
+      <h1>SuchCab</h1>
+      <p>Pedicab Ride Sharing</p>
+      <div class="spinner"></div>
+    </div>
+  </div>
+
+  <!-- Main App Container -->
+  <div id="app" class="app hidden">
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+      <button id="menu-btn" class="icon-btn">☰</button>
+      <h1 class="app-title">SuchCab</h1>
+      <button id="notifications-btn" class="icon-btn">
+        🔔
+        <span id="notification-badge" class="badge hidden"></span>
+      </button>
+    </nav>
+
+    <!-- Side Menu -->
+    <div id="side-menu" class="side-menu">
+      <div class="menu-header">
+        <div class="user-avatar" id="menu-avatar">👤</div>
+        <div class="user-info">
+          <div id="menu-username">Guest</div>
+          <div id="menu-email" class="text-muted"></div>
+        </div>
+      </div>
+      <nav class="menu-nav">
+        <a href="#home" class="menu-item active" data-page="home">
+          <span class="icon">🏠</span>
+          <span>Home</span>
+        </a>
+        <a href="#rides" class="menu-item" data-page="rides">
+          <span class="icon">🚲</span>
+          <span>My Rides</span>
+        </a>
+        <a href="#drivers" class="menu-item" data-page="drivers">
+          <span class="icon">👨‍✈️</span>
+          <span>Drivers</span>
+        </a>
+        <a href="#favorites" class="menu-item" data-page="favorites">
+          <span class="icon">⭐</span>
+          <span>Favorites</span>
+        </a>
+        <a href="#messages" class="menu-item" data-page="messages">
+          <span class="icon">💬</span>
+          <span>Messages</span>
+        </a>
+        <a href="#settings" class="menu-item" data-page="settings">
+          <span class="icon">⚙️</span>
+          <span>Settings</span>
+        </a>
+        <a href="#logout" class="menu-item" id="logout-btn">
+          <span class="icon">🚪</span>
+          <span>Logout</span>
+        </a>
+      </nav>
+    </div>
+
+    <!-- Main Content -->
+    <main id="main-content" class="main-content">
+      <!-- Pages will be dynamically loaded here -->
+    </main>
+
+    <!-- Bottom Navigation (Mobile) -->
+    <nav class="bottom-nav">
+      <button class="nav-item active" data-page="home">
+        <span class="icon">🏠</span>
+        <span>Home</span>
+      </button>
+      <button class="nav-item" data-page="rides">
+        <span class="icon">🚲</span>
+        <span>Rides</span>
+      </button>
+      <button class="nav-item" data-page="drivers">
+        <span class="icon">👨‍✈️</span>
+        <span>Drivers</span>
+      </button>
+      <button class="nav-item" data-page="messages">
+        <span class="icon">💬</span>
+        <span>Messages</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- Modals -->
+  <div id="modal-container"></div>
+
+  <!-- Offline Indicator -->
+  <div id="offline-indicator" class="offline-indicator hidden">
+    ⚠️ You are offline. Some features may be limited.
+  </div>
+
+  <!-- Toast Notifications -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Install Prompt -->
+  <div id="install-prompt" class="install-prompt hidden">
+    <div class="install-content">
+      <span class="icon">📱</span>
+      <div class="install-text">
+        <strong>Install SuchCab</strong>
+        <p>Get quick access from your home screen</p>
+      </div>
+      <button id="install-btn" class="btn btn-primary">Install</button>
+      <button id="install-dismiss" class="btn btn-text">Later</button>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="/js/api.js"></script>
+  <script src="/js/location.js"></script>
+  <script src="/js/ui.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>

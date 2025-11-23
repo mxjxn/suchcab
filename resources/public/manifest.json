@@ -1,0 +1,79 @@
+{
+  "name": "SuchCab - Pedicab Ride Sharing",
+  "short_name": "SuchCab",
+  "description": "On-demand and scheduled pedicab rides with real-time driver tracking",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2563eb",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/img/icon-72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/img/icon-96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/img/icon-128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/img/icon-144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/img/icon-152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/img/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/img/icon-384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/img/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["transportation", "travel"],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Request Ride",
+      "short_name": "Ride",
+      "description": "Request an on-demand pedicab ride",
+      "url": "/?action=request-ride",
+      "icons": [{ "src": "/img/icon-96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "My Rides",
+      "short_name": "Rides",
+      "description": "View your ride history",
+      "url": "/?action=my-rides",
+      "icons": [{ "src": "/img/icon-96.png", "sizes": "96x96" }]
+    }
+  ]
+}

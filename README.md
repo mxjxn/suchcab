@@ -1,6 +1,6 @@
 # SuchCab - Pedicab Ride-Sharing Platform
 
-A comprehensive Clojure-based REST API for managing pedicab rides, tours, and driver-passenger connections. Built with Luminus 3.48.
+A comprehensive Progressive Web App (PWA) for pedicab rides, tours, and driver-passenger connections. Features a native-like mobile experience with offline support, push notifications, and real-time geolocation. Backend built with Luminus 3.48 (Clojure).
 
 ## Features
 
@@ -25,6 +25,17 @@ A comprehensive Clojure-based REST API for managing pedicab rides, tours, and dr
 - **Dashboard Statistics**: Real-time platform metrics and analytics
 - **Driver Search**: Find drivers by name, email, or other criteria
 - **Detailed Driver Profiles**: View comprehensive driver information including ride history
+
+### Progressive Web App (PWA) Features
+- **📱 Installable**: Add to home screen on mobile and desktop
+- **⚡ Offline Support**: Service worker caching for offline functionality
+- **📍 Geolocation**: Real-time location tracking for rides
+- **🔔 Push Notifications**: Get notified about ride updates and messages
+- **💾 Background Sync**: Queue actions when offline, sync when online
+- **🎨 Native UI**: Mobile-first design with app-like navigation
+- **⚙️ App Shortcuts**: Quick actions from home screen icon
+- **📶 Offline Indicator**: Clear feedback when connection is lost
+- **🔄 Auto-Updates**: Service worker updates for new features
 
 ## Prerequisites
 

@@ -10,6 +10,7 @@
     [reitit.ring :as ring]
     [ring.middleware.content-type :refer [wrap-content-type]]
     [ring.middleware.webjars :refer [wrap-webjars]]
+    [ring.util.response :as response]
     [suchcab.env :refer [defaults]]
     [mount.core :as mount]))
 
@@ -21,12 +22,16 @@
   :start ((or (:init defaults) (fn [])))
   :stop  ((or (:stop defaults) (fn []))))
 
+(defn serve-pwa-index [_]
+  (-> (response/resource-response "public/index.html")
+      (response/header "Cache-Control" "no-cache, no-store, must-revalidate")
+      (response/header "Content-Type" "text/html; charset=utf-8")))
+
 (mount/defstate app-routes
   :start
   (ring/ring-handler
     (ring/router
-      [["/" {:get
-             {:handler (constantly {:status 301 :headers {"Location" "/api/api-docs/index.html"}})}}]
+      [["/" {:get {:handler serve-pwa-index}}]
        (service-routes)
        ;(oauth-routes)
        ])
