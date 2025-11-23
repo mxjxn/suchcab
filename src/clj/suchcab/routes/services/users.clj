@@ -33,8 +33,22 @@
       :wrong-password   (bad-request {:error "Invalid password"}))))
 
 (defn create-user-handler
-  [{{{:keys [email username password] :as opts} :body} :parameters}]
-  (users/create-user opts))
+  [{{{:keys [email username password user-type avatar-url] :as opts} :body} :parameters}]
+  (let [result (users/create-user opts)]
+    (ok result)))
+
+(defn update-avatar-handler
+  [{{{:keys [user-id avatar-url] :as opts} :body} :parameters}]
+  (let [result (users/update-user-avatar user-id avatar-url)]
+    (if result
+      (ok result)
+      (not-found {:error "User not found"}))))
+
+(defn get-user-handler
+  [{{{:keys [user-id]} :path} :parameters}]
+  (if-let [user (users/get-user-by-id user-id)]
+    (ok (dissoc user :password :user/password))
+    (not-found {:error "User not found"})))
 
 (defn user-routes []
   ["/user"
@@ -42,11 +56,21 @@
    ["/create"
     {:post {:summary "create user account"
             :parameters {:body {:email string? :username string? :password string?}}
-            :responses {200 {:body {:status keyword? }}}
+            :responses {200 {:body {:status keyword?}}}
             :handler create-user-handler}}]
    ["/login"
     {:post {:summary "authenticate user account"
             :middleware [[wrap-http-cookie]]
             :parameters {:body {:email string? :password string?}}
             :responses {200 {:body {:status keyword?}}}
-            :handler login-user-handler}}]])
+            :handler login-user-handler}}]
+   ["/avatar"
+    {:put {:summary "update user avatar"
+           :parameters {:body {:user-id uuid? :avatar-url string?}}
+           :responses {200 {:body {:status keyword?}}}
+           :handler update-avatar-handler}}]
+   ["/:user-id"
+    {:get {:summary "get user by ID"
+           :parameters {:path {:user-id uuid?}}
+           :responses {200 {:body map?}}
+           :handler get-user-handler}}]])

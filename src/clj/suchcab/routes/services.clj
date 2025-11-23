@@ -10,6 +10,10 @@
     [buddy.auth :refer [authenticated?]]
     [suchcab.routes.services.graphql :as graphql]
     [suchcab.routes.services.tours :as tours]
+    [suchcab.routes.services.drivers :as drivers]
+    [suchcab.routes.services.rides :as rides]
+    [suchcab.routes.services.contacts :as contacts]
+    [suchcab.routes.services.messages :as messages]
     [suchcab.routes.services.users :refer [user-routes token-authentication token-authorization]]
     [suchcab.middleware :refer [wrap-restricted]]
     [suchcab.middleware.formats :as formats]
@@ -59,6 +63,10 @@
 
    (user-routes)
    (tours/tour-routes)
+   (drivers/driver-routes)
+   (rides/ride-routes)
+   (contacts/contact-routes)
+   (messages/message-routes)
 
    ["/math"
     {:swagger {:tags ["math"]}}
